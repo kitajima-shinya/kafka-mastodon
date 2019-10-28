@@ -21,6 +21,7 @@ variables:
   KUSTOMIZE_GIT_TAG: 1.0.0_2
   HTTP_PROXY: $http_proxy
   HTTPS_PROXY: $https_proxy
+  APP_PORT: 2181
   
 #before_script:
 #  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
