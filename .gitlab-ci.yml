@@ -16,7 +16,7 @@ variables:
   KUSTOMIZE_PROD_PATH: overlays/production/
   DOCKER_HOST: tcp://localhost:2375
   DOCKER_DRIVER: overlay2
-  DOCKER_IMAGE_TAG: 19.03.4
+  DOCKER_IMAGE_TAG: 19.03.3
   PYTHON_IMAGE_TAG: 3.8.0-alpine3.10
   KUSTOMIZE_GIT_TAG: 1.0.0_2
   HTTP_PROXY: $http_proxy
