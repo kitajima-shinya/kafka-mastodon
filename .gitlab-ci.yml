@@ -37,6 +37,7 @@ unit-test:
   image: python:$PYTHON_IMAGE_TAG
   stage: unittest
   script:
+    - pip install --no-cache-dir -r requirements.txt
     - python test_main.py
   except:
     - tags
