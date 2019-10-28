@@ -56,11 +56,15 @@ def kafka_toot(id, password, mastodon_url, kafka_url, kafka_topic):
         consumer = KafkaConsumer(kafka_topic, bootstrap_servers=kafka_url)
 
         login(id, password, mastodon_url)
+        print('Login completed.')
+
         mastodon = Mastodon(
             access_token='pytooter_usercred.secret',
             api_base_url=mastodon_url
         )
 
+        print('Start subscribing...')
+        print('Subscribing topic: ' + kafka_topic)
         for msg in consumer:
             print(msg.value)
             mastodon.toot(msg.value)
