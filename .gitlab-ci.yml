@@ -2,7 +2,7 @@
 #image: docker:latest
 
 services:
-  - name: docker:19.03.0-dind
+  - name: docker:19.03.4-dind
     command: ["--insecure-registry=harbor.neko.flab.fujitsu.co.jp:9000"]
 
 variables:
@@ -17,7 +17,7 @@ variables:
   DOCKER_HOST: tcp://localhost:2375
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
-  DOCKER_IMAGE_TAG: 19.03.0
+  DOCKER_IMAGE_TAG: 19.03.4
   PYTHON_IMAGE_TAG: 3.8.0-alpine3.10
   KUSTOMIZE_GIT_TAG: 1.0.0_2
   HTTP_PROXY: $http_proxy
@@ -74,6 +74,7 @@ image-test:
     - docker network rm test-network
 
 push-dev-latest:
+  image: docker:$DOCKER_IMAGE_TAG
   variables:
     GIT_STRATEGY: none
   stage: push
