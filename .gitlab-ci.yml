@@ -81,6 +81,7 @@ push-dev-latest:
   script:
     - docker pull $IMAGE_TAG
     - docker tag $IMAGE_TAG $IMAGE_DEV_LATEST_TAG
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker push $IMAGE_DEV_LATEST_TAG
 
 push-latest:
