@@ -1,8 +1,6 @@
 import unittest
-from unittest import mock
 
 from pip._internal.utils.misc import captured_stdout
-from requests.exceptions import HTTPError
 import os
 import main as m
 
