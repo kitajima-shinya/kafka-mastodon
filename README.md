@@ -1,6 +1,6 @@
 # kafka-mastodon
 
-指定したkafkaのtopicをconsumeし，その内容をMattermostに投稿する
+指定したkafkaのtopicをconsumeし，その内容をMastodonに投稿する
 
 ## pytooter_clientcred.secretの生成
 
