@@ -54,7 +54,7 @@ class TestGetKafkaUrl(unittest.TestCase):
         os.environ['KAFKA_URL'] = 'kafka.test.com:9092'
         self.assertEqual(m.get_kafka_url(), 'kafka.test.com:9092')
 
-class TestGetKafkaTopc(unittest.TestCase):
+class TestGetKafkaTopic(unittest.TestCase):
     # KAFKA_TOPICが環境変数に存在しない場合はNoneが返る
     def test_none(self):
         # KAFKA_TOPICという環境変数があれば削除する
