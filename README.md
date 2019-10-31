@@ -1,6 +1,8 @@
 # kafka-mastodon
 
-指定したkafkaのtopicをconsumeし，その内容をMattermostに投稿する
+指定したkafkaのtopicをconsumeし，その内容をMastodonに投稿する
+
+Subscribeするtopicはコンマ区切りで複数指定できる
 
 ## pytooter_clientcred.secretの生成
 
@@ -25,5 +27,5 @@
 ## dockerコンテナ実行方法
 
 ```
-# docker run --name kafka-mastodon -e ID=**** -e PASSWORD=**** -e MASTODON_URL=http://mstdn.**** -e KAFKA_URL=kafka.neko.flab.fujitsu.co.jp:9092 -e KAFKA_TOPIC=mastodon -d harbor.neko.flab.fujitsu.co.jp:9000/kitajima/kafka-mastodon
+# docker run --name kafka-mastodon -e ID=**** -e PASSWORD=**** -e MASTODON_URL=http://mstdn.**** -e KAFKA_URL=kafka.****:9092 -e KAFKA_TOPICS=test,topic -d harbor.neko.flab.fujitsu.co.jp:9000/kitajima/kafka-mastodon
 ```

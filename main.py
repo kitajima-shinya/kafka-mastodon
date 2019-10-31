@@ -4,38 +4,11 @@ from kafka import KafkaConsumer
 # pip install Mastodon.py
 from mastodon import Mastodon
 
-def get_id():
-    if 'ID' in os.environ:
-        id = os.getenv('ID')
-        return id
-    else:
-        return None
-
-def get_password():
-    if 'PASSWORD' in os.environ:
-        password = os.getenv('PASSWORD')
-        return password
-    else:
-        return None
-
-def get_mastodon_url():
-    if 'MASTODON_URL' in os.environ:
-        mastodon_url = os.getenv('MASTODON_URL')
-        return mastodon_url
-    else:
-        return None
-
-def get_kafka_url():
-    if 'KAFKA_URL' in os.environ:
-        kafka_url = os.getenv('KAFKA_URL')
-        return kafka_url
-    else:
-        return None
-
-def get_kafka_topic():
-    if 'KAFKA_TOPIC' in os.environ:
-        kafka_topic = os.getenv('KAFKA_TOPIC')
-        return kafka_topic
+def get_topic_list():
+    if 'KAFKA_TOPICS' in os.environ:
+        kafka_topics = os.getenv('KAFKA_TOPICS')
+        topic_list = [x.strip() for x in kafka_topics.split(',')]
+        return topic_list
     else:
         return None
 
@@ -51,9 +24,10 @@ def login(id, password, mastodon_url):
     )
     return mastodon
 
-def kafka_toot(id, password, mastodon_url, kafka_url, kafka_topic):
-    if id != None and password != None and mastodon_url != None and kafka_url != None and kafka_topic != None:
-        consumer = KafkaConsumer(kafka_topic, bootstrap_servers=kafka_url)
+def kafka_toot(id, password, mastodon_url, kafka_url, topic_list):
+    if id != None and password != None and mastodon_url != None and kafka_url != None and topic_list != None:
+        consumer = KafkaConsumer(bootstrap_servers=kafka_url)
+        consumer.subscribe(topic_list)
 
         login(id, password, mastodon_url)
         print('Login completed.')
@@ -64,7 +38,9 @@ def kafka_toot(id, password, mastodon_url, kafka_url, kafka_topic):
         )
 
         print('Start subscribing...')
-        print('Subscribing topic: ' + kafka_topic)
+        print('Subscribing topics: ')
+        print(topic_list)
+
         for msg in consumer:
             print(msg.value)
             mastodon.toot(msg.value)
@@ -77,17 +53,17 @@ def kafka_toot(id, password, mastodon_url, kafka_url, kafka_topic):
         print('ERROR: MASTODON_URL env is not defined.')
     if kafka_url == None:
         print('ERROR: KAFKA_URL env is not defined.')
-    if kafka_topic == None:
-        print('ERROR: KAFKA_TOPIC env is not defined.')
+    if topic_list == None:
+        print('ERROR: KAFKA_TOPICS env is not defined.')
 
 def main():
-    id = get_id()
-    password = get_password()
-    mastodon_url = get_mastodon_url()
-    kafka_url = get_kafka_url()
-    kafka_topic = get_kafka_topic()
+    id = os.getenv('ID', None)
+    password = os.getenv('PASSWORD', None)
+    mastodon_url = os.getenv('MASTODON_URL', None)
+    kafka_url = os.getenv('KAFKA_URL', None)
+    topic_list = get_topic_list()
 
-    kafka_toot(id, password, mastodon_url, kafka_url, kafka_topic)
+    kafka_toot(id, password, mastodon_url, kafka_url, topic_list)
 
 if __name__ == '__main__':
     main()
