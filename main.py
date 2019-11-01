@@ -43,7 +43,19 @@ def kafka_toot(id, password, mastodon_url, kafka_url, topic_list):
 
         for msg in consumer:
             print(msg.value)
-            mastodon.toot(msg.value)
+
+            msg_list = msg.value.splitlines()
+            print(msg_list)
+
+            if len(msg_list) == 1:
+                mastodon.toot(msg.value)
+            else:
+                first_line = msg_list.pop(0)
+
+                mastodon.status_post(
+                    '\n'.join(msg_list),
+                    spoiler_text=first_line
+                )
 
     if id == None:
         print('ERROR: ID env is not defined.')
