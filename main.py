@@ -42,8 +42,24 @@ def kafka_toot(id, password, mastodon_url, kafka_url, topic_list):
         print(topic_list)
 
         for msg in consumer:
-            print(msg.value)
-            mastodon.toot(msg.value)
+            # byte列をstrに変換
+            msg_str = msg.value.decode('utf-8')
+            print(msg.value.decode('utf-8'))
+
+            # 改行で区切ってリストにする
+            msg_list = msg_str.splitlines()
+            print("length: " + str(len(msg_list)))
+
+            # 複数行の場合はCWを使う
+            if len(msg_list) == 1:
+                mastodon.toot(msg.value)
+            else:
+                first_line = msg_list.pop(0)
+
+                mastodon.status_post(
+                    '\n'.join(msg_list),
+                    spoiler_text=first_line
+                )
 
     if id == None:
         print('ERROR: ID env is not defined.')
